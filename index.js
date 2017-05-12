@@ -30,6 +30,8 @@ Tzuyu.client.on('message', message => {
 
   if (!message.member || !message.member.voiceChannelID) {
     // if the user is not in a voice channel
+	  //OR the command is listed as DND-able, help-able
+	  //cya 3.1 boys
     return false
   }
 
@@ -89,9 +91,17 @@ Tzuyu.client.on('message', message => {
       break
 
     case 'help':
-      Tzuyu.message('Available commands: \n\n play, kill, leave, skip, queue, bump, remove, config_prefix, config_delete_delay \n\n Current prefix: `' + Tzuyu.getPrefix() + '`')
+      Tzuyu.message('Available commands: \n\n play, kill, leave, skip, queue, bump, remove, config_prefix, config_delete_delay, dnd, info [command]\n\n Current prefix: `' + Tzuyu.getPrefix() + '`')
       break
 
+	case 'dnd':
+		Tzuyu.message('Current Dungeons and Dragons functions: roll')
+		break;
+		
+	case 'info':
+		Tzuyu.message(params);
+	break;
+		
     case 'bump':
       Tzuyu.bump(params)
       break
@@ -99,6 +109,12 @@ Tzuyu.client.on('message', message => {
     case 'remove':
       Tzuyu.removeFromQueue(params)
       break
+		
+	case 'roll':
+		Tzuyu.roll(params)
+	break
+		//there has to be a way to do this without the "roll" command prefix
+		//i.e %6d20 is read as number - DnD dice indicator - number
 
     case 'config_delete_delay':
       if (Tzuyu.setMessageDeleteDelay(params)) {

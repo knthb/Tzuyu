@@ -5,6 +5,8 @@ const Queue = require('./Queue')
 const Discord = require('discord.js')
 const Song = require('./media/Song')
 const Playlist = require('./media/Playlist')
+const DnD = require('./DnD')//experimental
+const Helper = require('./Helper')//Experimentaler
 // const MediaPlayer = require('./MediaPlayer');
 
 class Bot {
@@ -23,9 +25,12 @@ class Bot {
     this.queue = new Queue()
     this.dispatcher = null
     this.client = new Discord.Client()
+	this.DM = new DnD()//PRAY
+	this.help = new Helper()//C H R I S T
     this.config = {
-      prefix: '%',
+      prefix: '!',
       messageDelay: 15000
+	  //uhh
     }
     this.isConnecting = false
 
@@ -260,6 +265,20 @@ class Bot {
   }
   login (token) {
     this.client.login(token)
+  }
+  
+  roll(input){
+	  
+	  var result = this.DM.roll(input)
+	  
+	  if (!input){
+		  console.log("!input is catching")
+	  }
+	  
+	  if (result < 0){
+		  this.message("Oops! Did you type your roll in wrong? Use `"+this.getPrefix()+"help roll` for more info.")
+	  } else {
+		  this.message(input+' rolled: **'+result+'**')}
   }
 }
 
