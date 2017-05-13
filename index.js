@@ -28,7 +28,8 @@ Tzuyu.client.on('message', message => {
     return false
   }
 
-  if (!message.member || !message.member.voiceChannelID) {
+  if ((!message.member || !message.member.voiceChannelID) && Tzuyu.isLocal()) {
+	  console.log(Tzuyu.isLocal())
     // if the user is not in a voice channel
 	  //OR the command is listed as DND-able, help-able
 	  //cya 3.1 boys
@@ -79,6 +80,10 @@ Tzuyu.client.on('message', message => {
     case 'queue':
       Tzuyu.listQ()
       break
+		
+	case 'q':
+		Tzuyu.listQ()//You're welcome William
+	break
 
     case 'shuffle':
       Tzuyu.shuffle()

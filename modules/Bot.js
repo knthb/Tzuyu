@@ -29,7 +29,8 @@ class Bot {
 	this.help = new Helper()//C H R I S T
     this.config = {
       prefix: '!',
-      messageDelay: 15000
+      messageDelay: 15000,
+	  local: false
 	  //uhh
     }
     this.isConnecting = false
@@ -50,6 +51,10 @@ class Bot {
     this.permlist.users.push(id)
   }
 
+  isLocal (){
+	  return this.local;
+  }
+	
   isPermitted (id) {
     if (this.permlist.isActive) {
       if (this.permlist.type === 'whitelist') {
@@ -268,18 +273,21 @@ class Bot {
   }
   
   roll(input){
-	  
+	  //result -1 means an error in input, like negative numbers, 0s, invalid info, non-integers etc.
+	  //result -2 means an item was out of bounds (these are different so the response message is helpful)
 	  var result = this.DM.roll(input)
-	  
-	  if (!input){
-		  console.log("!input is catching")
-	  }
-	  
-	  if (result < 0){
-		  this.message("Oops! Did you type your roll in wrong? Use `"+this.getPrefix()+"help roll` for more info.")
+	  console.log('result '+result)
+	  if (result === -1){
+		  this.message("Something went wrong! Did you type your roll incorrectly? Try using `"+this.getPrefix()+"help roll` for more info.")
 	  } else {
-		  this.message(input+' rolled: **'+result+'**')}
+		  if (result ===-2){
+			  this.message("A-ah! Your numbers... so big... T-that definitely won't fit inside me! <:heart:312888633613090828> Kyaaaaaaaa!~")
+			  //remindme: along with verbose mode, add hentai mode (toggleable hopefully oh god)
+		  }else{
+		  this.message('Your '+input+' rolled: **'+result+'**')
+		  }
+	  }
   }
-}
+  }
 
 module.exports = Bot
