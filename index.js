@@ -100,7 +100,7 @@ Tzuyu.client.on('message', message => {
       break
 
 	case 'dnd':
-		Tzuyu.message('Current Dungeons and Dragons functions: roll')
+		Tzuyu.message('Current Dungeons and Dragons functions: roll, lastroll')
 		break;
 		
 	case 'info':
@@ -118,8 +118,10 @@ Tzuyu.client.on('message', message => {
 	case 'roll':
 		Tzuyu.roll(params)
 	break
-		//there has to be a way to do this without the "roll" command prefix
-		//i.e %6d20 is read as number - DnD dice indicator - number
+    
+  case 'lastroll':
+    Tzuyu.lastroll()
+    break
 
     case 'config_delete_delay':
       if (Tzuyu.setMessageDeleteDelay(params)) {

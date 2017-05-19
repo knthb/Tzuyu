@@ -273,21 +273,26 @@ class Bot {
   }
   
   roll(input){
-	  //result -1 means an error in input, like negative numbers, 0s, invalid info, non-integers etc.
-	  //result -2 means an item was out of bounds (these are different so the response message is helpful)
-	  var result = this.DM.roll(input)
-	  console.log('result '+result)
-	  if (result === -1){
-		  this.message("Something went wrong! Did you type your roll incorrectly? Try using `"+this.getPrefix()+"help roll` for more info.")
-	  } else {
-		  if (result ===-2){
-			  this.message("A-ah! Your numbers... so big... T-that definitely won't fit inside me! <:heart:312888633613090828> Kyaaaaaaaa!~")
-			  //remindme: along with verbose mode, add hentai mode (toggleable hopefully oh god)
-		  }else{
-		  this.message('Your '+input+' rolled: **'+result+'**')
-		  }
-	  }
+    try{
+	    let result = this.DM.roll(input)
+      this.message(input+' rolled: **'+result+'**')
+      //insert helper errorhandler
+    }catch(e){
+      		this.message(e.message+" Try using `"+this.getPrefix()+"help roll` for more info.")
+      //temporary, until the global helper
+    }
   }
+  
+  rollstats(){
+    try{
+        let last = this.DM.rollstats()
+        this.message("Your previous roll for "+last.string+" was: **"+last.sum+"**\n+``` ```")
+      }catch(e){
+      this.message(e.message+" Try using `"+this.getPrefix()+"help rollstats` for more info.")
+      //insert errorhandler
+    }
+  
   }
+}
 
 module.exports = Bot

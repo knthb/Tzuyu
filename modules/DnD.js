@@ -5,61 +5,67 @@ const fs = require('fs')//I hope I hope I hope
 class DnD{	
     constructor () {
   	  this.lastroll = {
-  		  result: 0,
-  		  hi: 0,
-  		  lo: 0
+        sum: null,//the king of variables
+        times: 1,
+        sides: 6,
+        string: 'd6',
   	  }
     }
   
     random (lo, hi) { // return 4;
-  	  return Math.random() * (hi - lo) + lo;
+  	  return Math.random() * (hi - lo) + lo
     }
   
   
     roll (input){
-		var sum = 0;//the king of variables
-		var times = 1
-		var sides = 6
-			  
-		if (input === undefined){ //if some idiot just didn't add something to it
-						console.log('primitiveCheck')
-			return -1
-		}
 		
-  	  var nums = input.toString().split('d' || 'D', 2);
-	  
-	  if(nums[0] != undefined && !isNaN(nums[0])){
-		  times = nums[0]
-		  console.log('1 - '+nums[0])
-		  console.log('2 - '+nums[1])
-	  }	  
-	  
-	  
-	  
-	  var sides = nums[1];
-	  
-  	 // if (!input[1] || isNaN(input[0]) || isNaN(input[1])){
-		 
-		 if (isNaN(nums[0]) || isNaN(nums[1]) || nums[1] == undefined){
-		 	return -1
+		let nums = /^([0-9]*?)[dD]([0-9]+$)/.exec(input)
 
-		 }
-		 if (nums[0] > 10000 || nums [1] > 10000 || nums[0] < 0 || nums[1] < 0){
-			 //I'm not sure who would roll 10 000 1-sided die, rather than a 10 000-sided die, but hey your game not mine man
-		 	return -2
-		 }
+      if (!nums) {
+        throw new RangeError("Something went wrong with your input.")
+      }
+    
+    //if (!nums[1]){
+    //   this.times = 1 
+    //}
+      this.times = nums[1] || 1
+      this.sides = nums[2]
 		 
-	  
-  	  for (var i = 0; i < times; i ++){
-  		  sum += this.random(1, sides)
+      if (this.times > 9999 || this.times < 1 || this.sides < 1 || this.sides >> 9999){
+        //arbitrary, but will we EVER need more. Also 1-sided die mfw
+			  throw new RangeError("A-ah! Your numbers... so big... T-that definitely won't fit inside me! <:heart:312888633613090828> Kyaaaaaaaa!~")
+			  //remindme: along with verbose mode, add hentai mode (toggleable hopefully oh god)
+      }
+    
+    	this.sum = 0
+      this.string = input//sloppy
+  	  for (var i = 0; i < this.times; i ++){
+  		  this.sum += this.random(1, this.sides)
 	  }
-	  
-	  
-  	  return Math.ceil(sum);
+  	  return Math.ceil(this.sum)
     }
   
-    //rollstats (input){
-  	  //}
+    rollstats () {
+      if (this.sum === null) {
+        throw new Error("Oops! I can't find your previous roll.")
+      }
+      //http://www.geeksforgeeks.org/dice-throw-problem/
+      
+      let arr=[this.times][this.sides]
+      
+      
+      let roll ={
+        sum: this.sum,
+        string: this.string,
+        lo: this.times,
+        hi: this.hi * this.sides,
+        odds:0,
+        likely:0,
+      }
+      
+      
+    }
+    
   
 }
 
