@@ -283,11 +283,12 @@ class Bot {
     }
   }
   
-  rollstats(){
+  lastroll(){
     try{
         let last = this.DM.rollstats()
-        this.message("Your previous roll for "+last.string+" was: **"+last.sum+"**\n+``` ```")
+        this.message("```Last roll: "+last.string+"\nYou rolled: "+last.sum+"\nChances of this outcome: "+last.odds+"```")
       }catch(e){
+        console.log(e)
       this.message(e.message+" Try using `"+this.getPrefix()+"help rollstats` for more info.")
       //insert errorhandler
     }
